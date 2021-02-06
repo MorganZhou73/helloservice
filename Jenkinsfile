@@ -1,26 +1,15 @@
-
-node
-{
-  stage ("checkout scm")
-    {
-        try
-        {
-            checkout([
-             $class: 'GitSCM',
-             branches: scm.branches,
-             doGenerateSubmoduleConfigurations: scm.doGenerateSubmoduleConfigurations,
-             extensions: scm.extensions,
-             userRemoteConfigs: scm.userRemoteConfigs
-            ])
-
-            echo "pipeline is finished now completed"
-            //sh "echo 'checkoutSCM: Complete'"
+pipeline {
+    agent {
+        docker {
+            image 'maven:3-alpine' 
+            args '-v /root/.m2:/root/.m2' 
         }
-        catch(err)
-        {
-            sh "echo 'checkoutSCM: Failed' "
-            throw err
+    }
+    stages {
+        stage('Build') { 
+            steps {
+                sh 'mvn -B -DskipTests clean package' 
+            }
         }
     }
 }
-
