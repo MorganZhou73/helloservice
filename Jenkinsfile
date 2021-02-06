@@ -36,8 +36,18 @@ node
 		}
 		catch(err) {
 			bat "echo 'UnitTest: Failed'"
-			//publishJunitTest();
+			junit 'target/surefire-reports/*.xml'
 			throw err
 		}		
+	}
+	stage("dockerBuild") {
+		try {
+			//bat '' 
+			bat "echo 'dockerBuild: Complete'"
+		}
+		catch(err) {
+			bat "echo 'dockerBuild: Failed'"
+			throw err
+		}
 	}
 }
