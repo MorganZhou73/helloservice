@@ -26,14 +26,14 @@ node
     {
         try
         {
-		//sh "mvn package -npu -B -PDEV  && ls -l target"
+		mvn package -npu -B -PDEV  && ls -l target
 		//publishReports();
 		//publishJunitTest();
-		sh "echo 'javaBuild: Complete'"
+		echo 'javaBuild: Complete'
 	}
         catch(err)
 	{
-		sh "echo 'javaBuild: Failed'"
+		echo 'javaBuild: Failed'
 		//publishJunitTest();
 		throw err
 	}
