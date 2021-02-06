@@ -13,7 +13,7 @@ node
              userRemoteConfigs: scm.userRemoteConfigs
             ])
 
-            echo "checkoutSCM is finished now completed"
+            echo "checkoutSCM is completed"
             //sh "echo 'checkoutSCM: Complete'"
         }
         catch(err)
@@ -22,20 +22,21 @@ node
             throw err
         }
     }
-	stage("javaBuild")
-	{
-		try
-		{
-			sh "mvn package -npu -B -PDEV  && ls -l target"
-			//publishReports();     
-			//publishJunitTest();
-			sh "echo 'javaBuild: Complete' "
-		}catch(err)
-		{
-			sh "echo 'javaBuild: Failed'" 
-			//publishJunitTest();
-			throw err
-		}
+    stage("javaBuild")
+    {
+        try
+        {
+		//sh "mvn package -npu -B -PDEV  && ls -l target"
+		//publishReports();
+		//publishJunitTest();
+		echo 'javaBuild: Complete'
 	}
+        catch(err)
+	{
+		sh "echo 'javaBuild: Failed'"
+		//publishJunitTest();
+		throw err
+	}
+    }
 }
 
