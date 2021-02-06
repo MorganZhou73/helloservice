@@ -29,9 +29,8 @@ node
 	}
 	stage("UnitTest") {
 		try {
-			bat 'mvn test'
-			bat "junit 'target/surefire-reports/*.xml'"
-			//publishJunitTest();
+			bat 'mvn test'			
+			step([$class: 'JUnitResultArchiver'])			
 			bat "echo 'UnitTest: Complete'"
 		}
 		catch(err) {
