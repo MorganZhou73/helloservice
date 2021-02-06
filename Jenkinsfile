@@ -52,7 +52,7 @@ node
 	}
 	stage("dockerDeploy") {
 		try {
-			bat "docker run -p 8080:8080 --name helloservice -d zmg9046/helloservice:tag-1.0.0"
+			bat "docker run -p 9000:9000 --name helloservice -d zmg9046/helloservice:tag-1.0.0"
 			bat "echo 'dockerDeploy: Complete'"
 		}
 		catch(err) {
