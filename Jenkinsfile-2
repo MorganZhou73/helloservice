@@ -1,0 +1,25 @@
+def checkoutSCM(){
+	stage ("checkoutSCM") {
+		try{
+			checkout([
+			 $class: 'GitSCM',
+			 branches: scm.branches,
+			 doGenerateSubmoduleConfigurations: scm.doGenerateSubmoduleConfigurations,
+			 extensions: scm.extensions,
+			 userRemoteConfigs: scm.userRemoteConfigs
+			])
+
+			bat "echo 'checkoutSCM: complete'"
+		}
+		catch(err) {
+			bat "echo 'checkoutSCM: Failed' "
+			throw err
+		}
+	}  
+}
+
+node
+{
+  env.APP_NAME="pipeline"
+  checkoutSCM()
+}
