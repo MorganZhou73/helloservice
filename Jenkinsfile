@@ -22,5 +22,20 @@ node
             throw err
         }
     }
+	stage("javaBuild")
+	{
+		try
+		{
+			sh "mvn package -npu -B -PDEV  && ls -l target"
+			//publishReports();     
+			//publishJunitTest();
+			sh "echo 'javaBuild: Complete' "
+		}catch(err)
+		{
+			sh "echo 'javaBuild: Failed'" 
+			//publishJunitTest();
+			throw err
+		}
+	}
 }
 
