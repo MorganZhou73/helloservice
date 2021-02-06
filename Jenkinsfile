@@ -20,26 +20,24 @@ node
 	stage("javaBuild") {
 		try {
 			bat 'mvn clean package -DskipTests' 
-			//publishReports();
-			//publishJunitTest();
 			bat "echo 'javaBuild: Complete'"
 		}
 		catch(err) {
 			bat "echo 'javaBuild: Failed'"
-			//publishJunitTest();
 			throw err
 		}
 	}
-	stage("Test") {
-		steps {
+	stage("UnitTest") {
+		try {
 			bat 'mvn test'
+			bat "junit 'target/surefire-reports/*.xml'"
+			//publishJunitTest();
+			bat "echo 'UnitTest: Complete'"
 		}
-		post {
-			always {
-				junit 'target/surefire-reports/*.xml'
-			}
-		}
-
-		bat "echo 'Test: Complete'"
+		catch(err) {
+			bat "echo 'UnitTest: Failed'"
+			//publishJunitTest();
+			throw err
+		}		
 	}
 }
