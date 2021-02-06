@@ -29,7 +29,7 @@ node
 		//sh "mvn package -npu -B -PDEV  && ls -l target"
 		//publishReports();
 		//publishJunitTest();
-		echo 'javaBuild: Complete'
+		sh "echo 'javaBuild: Complete'"
 	}
         catch(err)
 	{
