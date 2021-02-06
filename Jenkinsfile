@@ -50,4 +50,14 @@ node
 			throw err
 		}
 	}
+	stage("dockerDeploy") {
+		try {
+			bat "docker run -p 8080:8080 --name helloservice -d zmg9046/helloservice:tag-1.0.0"
+			bat "echo 'dockerDeploy: Complete'"
+		}
+		catch(err) {
+			bat "echo 'dockerDeploy: Failed'"
+			throw err
+		}
+	}
 }
