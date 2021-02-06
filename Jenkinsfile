@@ -1,7 +1,7 @@
 
 node
 {
-    stage ("checkout scm")
+    stage ("checkoutSCM")
     {
         try
         {
@@ -13,12 +13,12 @@ node
              userRemoteConfigs: scm.userRemoteConfigs
             ])
 
-            echo "checkoutSCM is completed"
+            bat "echo 'checkoutSCM: complete'"
             //sh "echo 'checkoutSCM: Complete'"
         }
         catch(err)
         {
-            sh "echo 'checkoutSCM: Failed' "
+            bat "echo 'checkoutSCM: Failed' "
             throw err
         }
     }
@@ -26,10 +26,10 @@ node
     {
         try
         {
-		bat 'mvn clean package -DskipTests' 
+		//bat 'mvn clean package -DskipTests' 
 		//publishReports();
 		//publishJunitTest();
-		echo 'javaBuild: Complete'
+		bat "echo 'javaBuild: Complete'"
 	}
         catch(err)
 	{
