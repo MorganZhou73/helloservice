@@ -42,7 +42,7 @@ node
 	}
 	stage("dockerBuild") {
 		try {
-			//bat '' 
+			bat "docker build -t zmg9046/helloservice:tag-1.0.0 -f Dockerfile ."
 			bat "echo 'dockerBuild: Complete'"
 		}
 		catch(err) {
