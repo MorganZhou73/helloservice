@@ -26,7 +26,7 @@ node
     {
         try
         {
-		mvn package -npu -B -PDEV  && ls -l target
+		mvn clean package
 		//publishReports();
 		//publishJunitTest();
 		echo 'javaBuild: Complete'
