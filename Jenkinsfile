@@ -26,7 +26,7 @@ node
     {
         try
         {
-		mvn install
+		mvn clean package -DskipTests 
 		//publishReports();
 		//publishJunitTest();
 		echo 'javaBuild: Complete'
