@@ -96,6 +96,9 @@ java -jar target/helloservice-0.0.1-SNAPSHOT.jar --server.port=8080
 docker build -t zmg9046/helloservice:tag-1.0.0 -f Dockerfile .
 docker run -p 8080:8080 --name helloservice -d zmg9046/helloservice:tag-1.0.0
 
+; if port 8080 is not available, but 9000 is available
+docker run -p 9000:8080 --name helloservice -d zmg9046/helloservice:tag-1.0.0
+
 ; to check docker image/container
 D:\helloservice>docker image ls
 REPOSITORY               TAG                   IMAGE ID       CREATED          SIZE
