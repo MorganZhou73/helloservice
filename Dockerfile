@@ -7,7 +7,7 @@ FROM openjdk:8-jdk-alpine
 MAINTAINER unistar.com
 
 VOLUME /tmp
-EXPOSE 9000
+EXPOSE 8080
 
 COPY target/*.jar helloservice.jar
 
