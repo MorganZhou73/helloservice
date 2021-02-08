@@ -118,3 +118,42 @@ docker image rm zmg9046/helloservice:tag-1.0.0
 
 docker login
 docker push zmg9046/helloservice:tag-1.0.0
+
+### Helm chart to Kubernetes
+PS C:\helloservice> helm create hellochart
+
+PS C:\helloservice> kubectl config get-contexts
+PS C:\helloservice> kubectl create ns hello
+
+PS C:\helloservice> kubectl get ns
+PS C:\helloservice> helm install hellochart --namespace hello --generate-name
+PS C:\helloservice> kubectl -n hello get all
+NAME                                READY   STATUS    RESTARTS   AGE
+pod/helloservice-699fcf4f8b-62ww6   0/1     Running   2          58s
+
+NAME                   TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)    AGE
+service/helloservice   ClusterIP   10.101.73.160   <none>        9000/TCP   58s
+
+NAME                           READY   UP-TO-DATE   AVAILABLE   AGE
+deployment.apps/helloservice   0/1     1            0           58s
+
+NAME                                      DESIRED   CURRENT   READY   AGE
+replicaset.apps/helloservice-699fcf4f8b   1         1         0       58s
+
+PS C:\helloservice> kubectl -n hello describe pod/helloservice-699fcf4f8b-62ww6
+
+PS C:\helloservice> helm ls --namespace hello
+PS C:\helloservice> kubectl -n hello delete service/helloservice
+PS C:\helloservice> kubectl -n hello delete deployment.apps/helloservice
+
+PS C:\helloservice> kubectl -n hello port-forward service/helloservice 9000:8080
+; then access http://localhost:9000/healthcheck?format=full   
+; -- port 8080 is defined in Dockerfile and \hellochart\values.yaml
+
+PS C:\helloservice> helm uninstall hellochart-1612744231 --namespace hello
+
+PS C:\helloservice> git add .
+PS C:\helloservice> git commit -am "add helm chart"
+PS C:\helloservice> git push
+
+
