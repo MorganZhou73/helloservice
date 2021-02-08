@@ -52,7 +52,7 @@ node
 	}	
 	stage("helmDeploy") {
 		try {
-      bat "kubectl create ns hello"
+                        //bat "kubectl create ns hello"
 			bat "helm install hellochart --namespace hello --generate-name"
 			bat "echo 'helmDeploy: Complete'"
 		}
