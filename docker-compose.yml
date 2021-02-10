@@ -1,0 +1,11 @@
+version: "3.0"
+services:
+     
+  helloservice :
+    container_name: helloservice 
+    build:
+      context: ./
+      dockerfile: ./Dockerfile
+    image: zmg9046/helloservice:tag-1.0.0
+    ports:
+      - 9000:8080

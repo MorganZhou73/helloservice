@@ -113,6 +113,12 @@ CONTAINER ID   IMAGE                            COMMAND                  CREATED
 docker stop helloservice
 docker rm helloservice
 docker image rm zmg9046/helloservice:tag-1.0.0
+
+; use docker-compose
+docker-compose -f docker-compose.yml build
+docker-compose -f docker-compose.yml up -d
+
+docker-compose -f docker-compose.yml down
 	
 ### Push to Docker hub https://hub.docker.com/
 
