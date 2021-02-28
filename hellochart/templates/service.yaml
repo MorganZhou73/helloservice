@@ -13,3 +13,7 @@ spec:
       name: http
   selector:
     {{- include "hellochart.selectorLabels" . | nindent 4 }}
+  #loadBalancerIP only works if it is supported by cloud provider otherwise it is ignored
+  {{- if .Values.service.loadBalancerStaticIpEnabled }}
+  loadBalancerIP: {{ .Values.service.loadBalancerStaticIp }}
+  {{- end }}  
