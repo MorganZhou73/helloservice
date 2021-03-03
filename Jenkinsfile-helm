@@ -55,7 +55,7 @@ node
             //bat "kubectl create ns hello"
 			bat "helm install hellochart --namespace hello --generate-name"
 			sleep 120
-			bat "kubectl -n hello port-forward service/helloservice 9000:8080"
+			bat "kubectl -n hello port-forward service/helloservice 9000:8080 &"
 			bat "echo 'helmDeploy: Complete'"
 		}
 		catch(err) {
