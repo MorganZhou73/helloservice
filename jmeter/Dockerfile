@@ -12,6 +12,7 @@ ENV JMETER_HOME /jmeter/apache-jmeter-$JMETER_VERSION/
 
 ENV QA_HOME /qa
 
+
 # Add JMeter to the Path
 ENV PATH $JMETER_HOME/bin:$PATH:$QA_HOME:$PATH
 # Install few utilities
@@ -30,7 +31,6 @@ RUN apt-get clean && \
 # ADD all the plugins
 #ADD jmeter-plugins/lib /jmeter/apache-jmeter-$JMETER_VERSION/lib
 
-
 # Install
 RUN cd  /jmeter/apache-jmeter-$JMETER_VERSION \
     && wget -P lib/ext/  --trust-server-names https://jmeter-plugins.org/get/  \
@@ -39,17 +39,13 @@ RUN cd  /jmeter/apache-jmeter-$JMETER_VERSION \
         && java -cp ./lib/ext/jmeter-plugins-manager-*.jar org.jmeterplugins.repository.PluginManagerCMDInstaller \
         && ./bin/PluginsManagerCMD.sh install jpgc-ffw
 
-
 # Set the working directory to /qa
+RUN mkdir -p /qa
 WORKDIR /qa
 
-#
-# # Copy the current directory contents into the container at /qa
-ADD . /qa
+# Copy the current directory contents into the container at /qa
+COPY entrypoint.sh /qa/
 
-#
-# Install any needed packages specified in requirements.txt
-RUN pip install --trusted-host pypi.python.org -r py-req.txt
+RUN chmod +x /qa/entrypoint.sh
 
-
-RUN chmod 555 entrypoint.sh
+#RUN chmod 555 /qa/entrypoint.sh

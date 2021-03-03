@@ -168,4 +168,8 @@ PS C:\helloservice> git add .
 PS C:\helloservice> git commit -am "add helm chart"
 PS C:\helloservice> git push
 
+## Jmeter test
+cd jmeter
+$ docker build -t zmg9046/hellojmeter:tag-1.0.0 -f ./Dockerfile .
+$ docker run  --name helloservice -d zmg9046/hellojmeter:tag-1.0.0
 
