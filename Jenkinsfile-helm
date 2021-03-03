@@ -63,6 +63,16 @@ node
 			throw err
 		}
 	}
+	stage("apiTest") {
+		try {
+            // test Jmeter 
+			bat "echo 'apiTest: Complete'"
+		}
+		catch(err) {
+			bat "echo 'apiTest: Failed'"
+			throw err
+		}
+	}
 	stage("tearDown") {
 		try {
  			bat "helm --namespace hello uninstall hellochart123"
