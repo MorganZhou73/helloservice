@@ -53,13 +53,24 @@ node
 	stage("helmDeploy") {
 		try {
             //bat "kubectl create ns hello"
-			bat "helm install hellochart --namespace hello --generate-name"
-			sleep 120
-			bat "kubectl -n hello port-forward service/helloservice 9000:8080 &"
+			bat "helm install hellochart123 hellochart --namespace hello"
+			//sleep 120
+			//bat "kubectl -n hello port-forward service/helloservice 9000:8080 &"
 			bat "echo 'helmDeploy: Complete'"
 		}
 		catch(err) {
 			bat "echo 'helmDeploy: Failed'"
+			throw err
+		}
+	}
+	stage("tearDown") {
+		try {
+ 			bat "helm --namespace hello uninstall hellochart123"
+
+			bat "echo 'tearDown: Complete'"
+		}
+		catch(err) {
+			bat "echo 'tearDown: Failed'"
 			throw err
 		}
 	}
