@@ -22,6 +22,7 @@ RUN apt-get clean && \
     apt-get -qy install \
                 wget \
                 vim \
+                curl \
 	        unzip && \
       mkdir /jmeter \
       && cd /jmeter/ \
@@ -32,7 +33,10 @@ RUN apt-get clean && \
 # ADD all the plugins
 #ADD jmeter-plugins/lib /jmeter/apache-jmeter-$JMETER_VERSION/lib
 
-# Install
+#Install kubectl
+RUN  /usr/bin/curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl \
+     && chmod +x ./kubectl  \
+     &&  mv ./kubectl /usr/local/bin/kubectl
 
 # Set the working directory to /qa
 RUN mkdir -p /qa

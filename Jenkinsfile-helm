@@ -66,7 +66,9 @@ node
 	stage("apiTest") {
 		try {
             // test Jmeter 
-			//bat "cd jmeter \ docker build -t zmg9046/helloservice:tag-1.0.0 -f Dockerfile ."
+			bat "cd jmeter; docker build -t zmg9046/helloservice:tag-1.0.0 -f Dockerfile ."
+			bat "cd jmeter; helm install hellojmeter001 hellochart --namespace hello"
+			//bat "export POD_NAME=`kubectl get po -n hello | grep hello-qa | awk '{print $1}'`; kubectl cp hello/$POD_NAME:/qa/greetingTest.jtl /tmp/greetingTest.jtl"
 			bat "echo 'apiTest: Complete'"
 		}
 		catch(err) {
@@ -77,6 +79,7 @@ node
 	stage("tearDown") {
 		try {
  			bat "helm --namespace hello uninstall hellochart001"
+ 			bat "helm --namespace hello uninstall hellojmeter001"
 
 			bat "echo 'tearDown: Complete'"
 		}
