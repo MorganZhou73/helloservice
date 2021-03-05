@@ -171,5 +171,18 @@ PS C:\helloservice> git push
 ## Jmeter test
 cd jmeter
 $ docker build -t zmg9046/hellojmeter:tag-1.0.0 -f ./Dockerfile .
-$ docker run  --name helloservice -d zmg9046/hellojmeter:tag-1.0.0
+$ helm install hellojmeter001 charts --namespace hello
+$ kubectl -n hello get all
+	NAME                              READY   STATUS    RESTARTS   AGE
+	pod/hello-qa-85znr                1/1     Running   0          8s
+	; to keep the STATUS as "Running" (otherwise "Completed") for checking logs, need add "sleep 9000" in entrypoint.sh
+	
+$ helm --namespace hello delete hellojmeter001
+
+$ kubectl -n hello logs pod/hello-qa-85znr
+
+$ kubectl -n hello exec -it hello-qa-85znr -- bash
+
+
+$ docker run --name hellojmeter -d zmg9046/hellojmeter:tag-1.0.0
 
