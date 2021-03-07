@@ -174,15 +174,24 @@ $ docker build -t zmg9046/hellojmeter:tag-1.0.0 -f ./Dockerfile .
 $ helm install hellojmeter001 charts --namespace hello
 $ kubectl -n hello get all
 	NAME                              READY   STATUS    RESTARTS   AGE
-	pod/hello-qa-85znr                1/1     Running   0          8s
+	pod/hello-qa-4zqd5                1/1     Running   0          58s
 	; to keep the STATUS as "Running" (otherwise "Completed") for checking logs, need add "sleep 9000" in entrypoint.sh
 	
+$ export POD_NAME=`kubectl get po -n hello | grep hello-qa | awk '{print $1}'`; 
+
+$ echo $POD_NAME
+hello-qa-4zqd5
+
+
+$ kubectl -n hello logs pod/$POD_NAME
+
+; the following 2 commands not work in MINGW64 (git bash) ; but work in PowerShell
+$ kubectl cp hello/$POD_NAME:/qa/greetingTest.jtl E:/temp/greetingTest.jtl
+$ kubectl -n hello exec -it $POD_NAME -- bash
+Unable to use a TTY - input is not a terminal or the right kind of file
+
+PS E:\> kubectl -n hello exec -it hello-qa-4zqd5 -- bash
+PS E:\> kubectl cp hello/hello-qa-4zqd5:/qa/greetingTest.jtl greetingTest.jtl
+
 $ helm --namespace hello delete hellojmeter001
-
-$ kubectl -n hello logs pod/hello-qa-85znr
-
-$ kubectl -n hello exec -it hello-qa-85znr -- bash
-
-
-$ docker run --name hellojmeter -d zmg9046/hellojmeter:tag-1.0.0
 
