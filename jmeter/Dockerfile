@@ -1,7 +1,3 @@
-# For Java 8
-#FROM openjdk:8-jdk-alpine
-#RUN apk add --no-cache bash
-
 # Use Java 8 slim JRE
 FROM openjdk:8-jre-slim
 

@@ -174,24 +174,41 @@ $ docker build -t zmg9046/hellojmeter:tag-1.0.0 -f ./Dockerfile .
 $ helm install hellojmeter001 charts --namespace hello
 $ kubectl -n hello get all
 	NAME                              READY   STATUS    RESTARTS   AGE
-	pod/hello-qa-4zqd5                1/1     Running   0          58s
+	pod/hello-qa-xst66                1/1     Running   0          58s
 	; to keep the STATUS as "Running" (otherwise "Completed") for checking logs, need add "sleep 9000" in entrypoint.sh
 	
 $ export POD_NAME=`kubectl get po -n hello | grep hello-qa | awk '{print $1}'`; 
 
 $ echo $POD_NAME
-hello-qa-4zqd5
-
+hello-qa-xst66
 
 $ kubectl -n hello logs pod/$POD_NAME
 
 ; the following 2 commands not work in MINGW64 (git bash) ; but work in PowerShell
-$ kubectl cp hello/$POD_NAME:/qa/greetingTest.jtl E:/temp/greetingTest.jtl
+$ kubectl cp hello/$POD_NAME:/qa/greetingTest.jtl /Temp/greetingTest.jtl
 $ kubectl -n hello exec -it $POD_NAME -- bash
 Unable to use a TTY - input is not a terminal or the right kind of file
 
-PS E:\> kubectl -n hello exec -it hello-qa-4zqd5 -- bash
-PS E:\> kubectl cp hello/hello-qa-4zqd5:/qa/greetingTest.jtl greetingTest.jtl
+
+PS E:\helloservice> docker build -t zmg9046/hellojmeter:tag-1.0.0 -f jmeter/Dockerfile jmeter/.
+PS E:\helloservice> helm install hellojmeter001 jmeter/charts --namespace hello
+
+PS E:\> kubectl get po -n hello
+
+PS E:\> kubectl -n hello exec -it hello-qa-xst66 -- bash
+
+root@hello-qa-xst66:/qa# ls
+entrypoint.sh  greetingTest.jmx  greetingTest.jtl  jmeter.log
+; the greetingTest.jtl is the result of jmeter tests
+root@hello-qa-xst66:/qa# cat greetingTest.jtl
+timeStamp,elapsed,label,responseCode,responseMessage,threadName,dataType,success,failureMessage,bytes,sentBytes,grpThreads,allThreads,URL,Latency,IdleTime,Connect
+1615131559103,53,greetingTest1,200,,Thread Group 1-1,text,true,,214,130,1,1,http://helloservice:8080/greeting,50,0,35
+1615131559160,4,greetingTest2,200,,Thread Group 1-1,text,true,,213,139,1,1,http://helloservice:8080/greeting?name=joe,4,0,0
+1615131559165,4,greeting1Test,200,,Thread Group 1-1,text,true,,213,135,1,1,http://helloservice:8080/greeting1/joe,4,0,0
+
+PS E:\> kubectl cp hello/hello-qa-xst66:/qa/greetingTest.jtl /Temp/greetingTest.jtl
+PS E:\> kubectl cp hello/hello-qa-xst66:/qa/jmeter.log /Temp/jmeter.log
 
 $ helm --namespace hello delete hellojmeter001
+$ docker image rm zmg9046/hellojmeter:tag-1.0.0
 
