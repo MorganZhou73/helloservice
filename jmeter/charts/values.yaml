@@ -2,7 +2,7 @@ replicaCount: 1
 global:
   image:
     repository: qadockerregistry.azurecr.io
-  complex: afilias
+  complex: unistar
 serviceready:
   image:
     tag: feature-noextrafolder-5-ef33e86
