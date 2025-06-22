@@ -1,0 +1,254 @@
+{
+	"info": {
+		"_postman_id": "c24f0fea-9556-4bcf-b744-953d26a5b539",
+		"name": "helloService",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "13221281"
+	},
+	"item": [
+		{
+			"name": "/greeting",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/greeting",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"greeting"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/healthcheck?format=full",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/healthcheck?format=full",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"healthcheck"
+					],
+					"query": [
+						{
+							"key": "format",
+							"value": "full",
+							"description": "[short, full]"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/greeting?name=xx",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/greeting?name=joe",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"greeting"
+					],
+					"query": [
+						{
+							"key": "name",
+							"value": "joe"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/greeting1/joe",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/greeting1/joe",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"greeting1",
+						"joe"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/sendmessage - json",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\": 1,\r\n    \"content\": \"Good morning\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/sendmessage",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"sendmessage"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/sendmessage - text/plain",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "text/plain",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "Good morning",
+					"options": {
+						"raw": {
+							"language": "text"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/sendmessage",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"sendmessage"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/sendmessage - xml",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/xml",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "<message><id>1</id><content>Good morning</content></message>",
+					"options": {
+						"raw": {
+							"language": "xml"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/sendmessage",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"sendmessage"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/sendmessagemap",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/xml",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "i",
+							"value": "1",
+							"type": "text"
+						},
+						{
+							"key": "content",
+							"value": "good morning",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{host}}/sendmessagemap",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"sendmessagemap"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "host",
+			"value": "http://localhost:8080",
+			"type": "string"
+		}
+	]
+}

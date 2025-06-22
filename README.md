@@ -1,33 +1,61 @@
 # Simple RESTful microservice demo, jmeter test, docker, Helm chart to Kubernetes
-    
+
+	Docs for installing IntelliJ, JDK, Maven, Gradle, Docker Desktop etc
+	GreetingController : show different @RequestParam, @PathVariable, consumes
+    HealthcheckController
+	
+
 ## API Test
+
 ### Endpoint /greeting ; /greeting1
+
 D:\>curl "http://localhost:8080/greeting"
 {"id":6,"content":"Good morning, World!"}
 
-D:\>curl "http://localhost:8080/greeting?name=joe"
-{"id":7,"content":"Good morning, joe!"}
+- curl --location 'http://localhost:8080/greeting?name=joe'
+  
+  {"id":7,"content":"Good morning, joe!"}
 
 D:\>curl "http://localhost:8080/greeting1/joe"
 {"id":8,"content":"Good morning, joe!"}
 
 ### Endpoint /sendmessage ; /sendmessagemap
-D:\>curl -X POST -H "Content-Type:application/json" -d "{ \"id\" : 1, \"content\" :  \"Good morning\" }" "http://localhost:8080/sendmessage"
-JSON message received! Your message: message{id: 1, content:Good morning}
 
-D:\>curl -X POST -H "Content-Type:text/plain" -d "Good morning" "http://localhost:8080/sendmessage"
-String message received! Your message: Good morning
+- curl --location 'http://localhost:8080/sendmessage' \
+  --header 'Content-Type: application/json' \
+  --data '{
+  "id": 1,
+  "content": "Good morning"
+  }'
 
-D:\>curl -X POST -H "Content-Type:application/xml" -d "<message><id>1</id><content>Good morning</content></message>" "http://localhost:8080/sendmessage"
-XML message received! Your message: message{id: 1, content:Good morning}
+  JSON message received! Your message: message{id: 1, content:Good morning}
 
-D:\>curl -X POST -d "id=1&content=good morning" "http://localhost:8080/sendmessagemap"
-Map message received! Your message: message{id: 1, content:good morning}
+- curl --location 'http://localhost:8080/sendmessage' \
+  --header 'Content-Type: text/plain' \
+  --data 'Good morning'
 
-D:\helloservice>curl -X POST -H "Content-Type:application/json" -d "@.\src\test\resources\message1.json" "http://localhost:8080/sendmessage"
-JSON message received! Your message: message{id: 1, content:Good morning!}
+  String message received! Your message: Good morning
+
+- curl --location 'http://localhost:8080/sendmessage' \
+  --header 'Content-Type: application/xml' \
+  --data '<message><id>1</id><content>Good morning</content></message>'
+
+  XML message received! Your message: message{id: 1, content:Good morning}
+
+- curl -X POST -d "id=1&content=good morning" "http://localhost:8080/sendmessagemap"
+      or
+	curl --location 'http://localhost:8080/sendmessagemap' \
+	--header 'Content-Type: application/x-www-form-urlencoded' \
+	--data-urlencode 'i=1' \
+	--data-urlencode 'content=good morning'
+
+	Map message received! Your message: message{id: 1, content:good morning}
+
+- curl -X POST -H "Content-Type:application/json" -d "@.\src\test\resources\message1.json" "http://localhost:8080/sendmessage"
+	JSON message received! Your message: message{id: 1, content:Good morning!}
 
 ### Endpoint /healthcheck ; /healthcheck2 ; /healthcheck3
+
 D:\>curl localhost:8080/healthcheck?format=short
 {"status":"OK"}
 
@@ -82,17 +110,22 @@ D:\>curl localhost:8080/healthcheck3?format=f -v
 <
 Bad format* Closing connection 0
 
+
 ## Build / Run commands
+		
 ; compile and run unit test
 mvn clean package
 
 ; compile unit test, but not run unit test
 mvn clean package -DskipTests
 
+java -jar target/helloservice-0.0.1-SNAPSHOT.jar
+
 java -jar target/helloservice-0.0.1-SNAPSHOT.jar --server.port=8080
 ; Ctrl+ C to stop the Tomcat WebServer
 
 ## Docker Commands
+
 docker build -t zmg9046/helloservice:tag-1.0.0 -f Dockerfile .
 docker run -p 8080:8080 --name helloservice -d zmg9046/helloservice:tag-1.0.0
 
@@ -100,7 +133,7 @@ docker run -p 8080:8080 --name helloservice -d zmg9046/helloservice:tag-1.0.0
 docker run -p 9000:8080 --name helloservice -d zmg9046/helloservice:tag-1.0.0
 
 ; to check docker image/container
-D:\helloservice>docker image ls
+D:\helloservice> docker image ls
 REPOSITORY               TAG                   IMAGE ID       CREATED          SIZE
 zmg9046/helloservice     tag-1.0.0             328e6004e656   21 minutes ago   123MB
 openjdk                  8-jdk-alpine          a3562aa0b991   21 months ago    105MB
@@ -172,6 +205,7 @@ PS C:\helloservice> helm package hellochart
 Successfully packaged chart and saved it to: C:\helloservice\hellochart-0.1.0.tgz
 
 ## Jmeter test
+
 cd jmeter
 $ docker build -t zmg9046/hellojmeter:tag-1.0.0 -f ./Dockerfile .
 $ helm install hellojmeter001 charts --namespace hello
@@ -215,3 +249,101 @@ PS E:\> kubectl cp hello/hello-qa-xst66:/qa/jmeter.log /Temp/jmeter.log
 $ helm --namespace hello delete hellojmeter001
 $ docker image rm zmg9046/hellojmeter:tag-1.0.0
 
+# Install JDK, Maven
+	
+- Install JDK
+	https://www.oracle.com/java/technologies/downloads/#jdk24-windows
+		jdk-24_windows-x64_bin.msi (sha256)
+		
+		Environment Variables:
+			JAVA_HOME  = C:\Program Files\Java\jdk-24
+			Path:  %JAVA_HOME%\bin; ....
+
+		; SETX : change is permanently. but need exit the shell and reopen. /m means for System Environment Variable rather then a User Environment Variable
+		; SET is for current shell window variables and change is immediately, but is temporary
+		SET JAVA_HOME="C:\Program Files\Java\jdk-24"
+		PS C:\> SETX JAVA_HOME "C:\Program Files\Java\jdk-24" /m
+		PS C:\> SETX PATH "$env:PATH;$env:JAVA_HOME/bin;"
+		
+		PS C:\> ECHO $env:JAVA_HOME
+		PS C:\> ECHO $env:PATH
+
+	- check version from CMD line:
+		java -version
+		
+- install Scala
+	https://www.scala-lang.org/download/
+	
+	scala -version
+	
+	cd E:\zhoumg\MyProject\AIStudy\Scala
+	scalac hello.Scala
+	scala Hello
+
+	- or (if fail on scala installation) install Scala CLI which includes everything Scala-3-ready
+		PS C:\> winget install virtuslab.scalacli
+
+		C:\> where scala-cli
+			C:\Program Files\scala-cli-x86_64-pc-win32\scala-cli.exe
+
+		C:\>scala-cli -version	
+			Scala CLI version: 1.8.2
+			Scala version (default): 3.7.1
+			
+		scala-cli Hello.scala
+		scala-cli compile Hello.scala
+		scala-cli run Hello
+		
+		scala-cli run MyScript.sc
+		
+- Install java IDE
+  Installl IntelliJ IDEA Community Edition: (IntelliJInstall.pdf)
+	https://www.jetbrains.com/idea/download/
+		ideaIC-2025.1.2.exe
+	
+- Install Apache Maven
+	https://maven.apache.org/download.cgi
+		apache-maven-3.9.10-bin.zip
+		unzip to C:\Program Files\Apache\Maven\apache-maven-3.9.10
+		. Environment Variables -> System Variables: 
+			MAVEN_HOME : C:\Program Files\Apache\Maven\apache-maven-3.9.10
+			Path:  %MAVEN_HOME%\bin; ....
+		. check version
+			mvn -v
+
+- Install Gradle
+	https://gradle.org/releases/
+		unzip to C:\Program Files\Gradle\gradle-8.14.2
+	. Environment Variables: 
+		GRADLE_HOME : C:\Program Files\Gradle\gradle-8.14.2
+		Path:  %GRADLE_HOME%\bin; ....
+		
+	. check version from CMD line:
+		gradle -v
+		
+- Postman is a collaboration platform for API development
+	https://www.guru99.com/postman-tutorial.html
+	https://www.postman.com/downloads/
+
+- Install Docker Desktop on Windows 10
+	- 1. Install WSL 2 : Open PowerShell as Administrator
+		PS C:\> dism.exe /online /enable-feature /featurename:Microsoft-Windows-Subsystem-Linux /all /norestart
+		PS C:\> dism.exe /online /enable-feature /featurename:VirtualMachinePlatform /all /norestart
+		. Restart your computer.
+
+		. Download and install the WSL 2 kernel: https://aka.ms/wsl2kernel
+
+		. Set WSL 2 as default:
+			PS C:\> wsl --set-default-version 2
+	- 2. Download Docker Desktop:  https://www.docker.com/products/docker-desktop/
+		Run the installer, During installation, choose WSL 2 backend if you're on Windows 10 Home.
+
+## Frontend Development Tools
+
+- Node.js
+	node-v24.2.0-x64.msi
+
+- Install Selenium on IntelliJ
+	https://www.seleniumhq.org/download/
+		
+##

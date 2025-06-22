@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.MediaType;
 import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.concurrent.atomic.AtomicLong;
@@ -75,8 +76,8 @@ public class GreetingController {
 	 * @param map serialized LinkedMultiValueMap<String, String> object
 	 * @return a string with the result of the POST
 	 */
-	@RequestMapping(value = "sendmessagemap", method = RequestMethod.POST)
-	public @ResponseBody String sendMessageMap(@RequestBody LinkedMultiValueMap<String, String> map) {
+@PostMapping(value = "sendmessagemap", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+public String sendMessageMap(@RequestParam MultiValueMap<String, String> map) {
 		Greeting message = new Greeting();
 
 		try {
